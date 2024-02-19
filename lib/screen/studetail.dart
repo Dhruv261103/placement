@@ -13,6 +13,8 @@ class _StudentDetailState extends State<StudentDetail> {
   int selectedYear = DateTime.now().year;
   late TextEditingController _searchController;
   String _searchText = '';
+  bool showAllStudent = false;
+  bool searchByCompanyName = true;
 
   @override
   void initState() {
@@ -49,7 +51,8 @@ class _StudentDetailState extends State<StudentDetail> {
                 },
                 style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
-                  hintText: 'Search by ID',
+                  hintText:
+                      'Search by ${searchByCompanyName ? 'Company Name' : 'Student ID'}',
                   hintStyle: TextStyle(color: Colors.white),
                   border: InputBorder.none,
                 ),
@@ -60,11 +63,21 @@ class _StudentDetailState extends State<StudentDetail> {
                   icon: Icon(Icons.search),
                   onPressed: () {
                     setState(() {
-                      _searchText = '123';
+                      _searchText = '***';
                     });
                   },
                 )
               : Container(),
+          IconButton(
+            icon: Icon(Icons.switch_account),
+            onPressed: () {
+              setState(() {
+                searchByCompanyName = !searchByCompanyName;
+                _searchText = '';
+                _searchController.clear();
+              });
+            },
+          ),
         ],
       ),
       body: Column(
@@ -73,17 +86,24 @@ class _StudentDetailState extends State<StudentDetail> {
             padding: const EdgeInsets.all(16.0),
             child: DropdownButton<int>(
               value: selectedYear,
-              items: List.generate(
-                DateTime.now().year - 2014,
-                (index) => DropdownMenuItem<int>(
-                  value: 2015 + index,
-                  child: Text('Year ${2015 + index}',
-                      style: TextStyle(fontSize: 16)),
+              items: [
+                DropdownMenuItem<int>(
+                  value: -1,
+                  child: Text('All'),
                 ),
-              ),
+                ...List.generate(
+                  DateTime.now().year - 2014,
+                  (index) => DropdownMenuItem<int>(
+                    value: 2015 + index,
+                    child: Text('Year ${2015 + index}',
+                        style: TextStyle(fontSize: 16)),
+                  ),
+                ),
+              ],
               onChanged: (value) {
                 setState(() {
                   selectedYear = value!;
+                  showAllStudent = selectedYear == -1;
                 });
               },
             ),
@@ -100,9 +120,19 @@ class _StudentDetailState extends State<StudentDetail> {
                   List<Placement> products = snapshot.data;
                   List<Placement> filteredProducts =
                       products.where((placement) {
-                    return placement.idNo.toLowerCase().contains(_searchText) &&
-                        (selectedYear == DateTime.now().year ||
-                            placement.yaer == selectedYear.toString());
+                    bool matchesYear = showAllStudent ||
+                        (placement.yaer == selectedYear.toString());
+                    if (searchByCompanyName) {
+                      return placement.company!
+                              .toLowerCase()
+                              .contains(_searchText) &&
+                          matchesYear;
+                    } else {
+                      return placement.idNo
+                              .toLowerCase()
+                              .contains(_searchText) &&
+                          matchesYear;
+                    }
                   }).toList();
                   if (filteredProducts.isEmpty) {
                     return Center(

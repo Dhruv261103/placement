@@ -63,7 +63,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                   icon: Icon(Icons.search),
                   onPressed: () {
                     setState(() {
-                      _searchText = 'Crestdata';
+                      _searchText = ' ';
                     });
                   },
                 )
