@@ -34,6 +34,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green,
+        iconTheme: IconThemeData(color: Colors.white),
         title: _searchText.isEmpty
             ? Text(
                 'Company Details',

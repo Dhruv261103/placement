@@ -18,6 +18,7 @@ class _StatasticDetailState extends State<StatasticDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.white),
           backgroundColor: Colors.green, // Updated app bar color
           title: Text(
             'Statastic',

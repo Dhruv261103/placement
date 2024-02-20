@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:placement/screen/flash_screen.dart';
 import 'package:placement/screen/homepage.dart';
 
 void main() {
@@ -14,11 +15,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
+        iconTheme: IconThemeData(color: Colors.white),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: flashscreen(),
     );
   }
 }

@@ -32,6 +32,7 @@ class _StudentDetailState extends State<StudentDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: Colors.indigo,
         title: _searchText.isEmpty
             ? Text(
@@ -60,7 +61,10 @@ class _StudentDetailState extends State<StudentDetail> {
         actions: [
           _searchText.isEmpty
               ? IconButton(
-                  icon: Icon(Icons.search),
+                  icon: Icon(
+                    Icons.search,
+                    color: Colors.white,
+                  ),
                   onPressed: () {
                     setState(() {
                       _searchText = '***';
@@ -69,7 +73,10 @@ class _StudentDetailState extends State<StudentDetail> {
                 )
               : Container(),
           IconButton(
-            icon: Icon(Icons.switch_account),
+            icon: Icon(
+              Icons.switch_account,
+              color: Colors.white,
+            ),
             onPressed: () {
               setState(() {
                 searchByCompanyName = !searchByCompanyName;
@@ -136,7 +143,7 @@ class _StudentDetailState extends State<StudentDetail> {
                   }).toList();
                   if (filteredProducts.isEmpty) {
                     return Center(
-                      child: Text('No companies found.'),
+                      child: Text('No Recorde Found.'),
                     );
                   }
                   return Scrollbar(
