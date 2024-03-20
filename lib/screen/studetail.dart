@@ -32,15 +32,15 @@ class _StudentDetailState extends State<StudentDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.white),
-        backgroundColor: Colors.indigo,
+        iconTheme: IconThemeData(color: Colors.black),
+        backgroundColor: Colors.grey,
         title: _searchText.isEmpty
             ? Text(
                 'Placement Details',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: Colors.black,
                 ),
               )
             : TextField(
@@ -54,7 +54,7 @@ class _StudentDetailState extends State<StudentDetail> {
                 decoration: InputDecoration(
                   hintText:
                       'Search by ${searchByCompanyName ? 'Company Name' : 'Student ID'}',
-                  hintStyle: TextStyle(color: Colors.white),
+                  hintStyle: TextStyle(color: Colors.black),
                   border: InputBorder.none,
                 ),
               ),
@@ -63,7 +63,7 @@ class _StudentDetailState extends State<StudentDetail> {
               ? IconButton(
                   icon: Icon(
                     Icons.search,
-                    color: Colors.white,
+                    color: Colors.black,
                   ),
                   onPressed: () {
                     setState(() {
@@ -75,7 +75,7 @@ class _StudentDetailState extends State<StudentDetail> {
           IconButton(
             icon: Icon(
               Icons.switch_account,
-              color: Colors.white,
+              color: Colors.black,
             ),
             onPressed: () {
               setState(() {
@@ -121,7 +121,16 @@ class _StudentDetailState extends State<StudentDetail> {
               builder: (context, AsyncSnapshot snapshot) {
                 if (!snapshot.hasData) {
                   return Center(
-                    child: CircularProgressIndicator(),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircularProgressIndicator(
+                            color: Colors.grey,
+                            backgroundColor:
+                                Color.fromARGB(255, 175, 228, 252)),
+                        Text('Wait for just second...'),
+                      ],
+                    ),
                   );
                 } else {
                   List<Placement> products = snapshot.data;
@@ -155,6 +164,7 @@ class _StudentDetailState extends State<StudentDetail> {
                       itemCount: filteredProducts.length,
                       itemBuilder: (context, index) {
                         return Card(
+                          color: Color.fromARGB(255, 175, 228, 252),
                           elevation: 8,
                           margin: EdgeInsets.symmetric(
                               vertical: 12, horizontal: 16),
@@ -164,33 +174,125 @@ class _StudentDetailState extends State<StudentDetail> {
                           child: Padding(
                             padding: const EdgeInsets.all(16.0),
                             child: ListTile(
-                              title: Text(
-                                'Enrollment No: ${filteredProducts[index].idNo}',
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
+                              // title:
                               subtitle: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    'Student Name: ${filteredProducts[index].firstName} ${filteredProducts[index].middleName} ${filteredProducts[index].lastName}',
-                                    style: TextStyle(fontSize: 14),
+                                  RichText(
+                                    text: TextSpan(
+                                        text: '',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.black,
+                                        ),
+                                        children: [
+                                          TextSpan(
+                                            text: 'ID No : ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15),
+                                          ),
+                                          TextSpan(
+                                              text:
+                                                  '${filteredProducts[index].idNo}',
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                              ))
+                                        ]),
+                                  ),
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                  SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      children: [
+                                        RichText(
+                                          text: TextSpan(
+                                              text: '',
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.black,
+                                              ),
+                                              children: [
+                                                TextSpan(
+                                                  text: 'Name : ',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 15),
+                                                ),
+                                                TextSpan(
+                                                    text:
+                                                        '${filteredProducts[index].firstName} ${filteredProducts[index].middleName} ${filteredProducts[index].lastName}',
+                                                    style: TextStyle(
+                                                      fontSize: 15,
+                                                    ))
+                                              ]),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                   SizedBox(height: 8),
                                   filteredProducts[index].company != ""
-                                      ? Text(
-                                          'Company Name: ${filteredProducts[index].company}',
-                                          style: TextStyle(fontSize: 14),
+                                      ? SingleChildScrollView(
+                                          scrollDirection: Axis.horizontal,
+                                          child: Row(
+                                            children: [
+                                              RichText(
+                                                text: TextSpan(
+                                                    text: '',
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.black,
+                                                    ),
+                                                    children: [
+                                                      TextSpan(
+                                                        text: 'Company Name : ',
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 15,
+                                                        ),
+                                                      ),
+                                                      TextSpan(
+                                                          text:
+                                                              '${filteredProducts[index].company}',
+                                                          style: TextStyle(
+                                                            fontSize: 15,
+                                                          ))
+                                                    ]),
+                                              ),
+                                            ],
+                                          ),
                                         )
                                       : Text(
                                           "Not Placed",
                                           style: TextStyle(
-                                              color: Colors.red, fontSize: 16),
+                                              color: Colors.red, fontSize: 15),
                                         ),
                                   SizedBox(height: 8),
-                                  Text(
-                                    'Year: ${filteredProducts[index].yaer}',
-                                    style: TextStyle(fontSize: 14),
+                                  RichText(
+                                    text: TextSpan(
+                                        text: '',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.black,
+                                        ),
+                                        children: [
+                                          TextSpan(
+                                            text: 'Year : ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15),
+                                          ),
+                                          TextSpan(
+                                              text:
+                                                  '${filteredProducts[index].yaer}',
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                              ))
+                                        ]),
                                   ),
                                 ],
                               ),

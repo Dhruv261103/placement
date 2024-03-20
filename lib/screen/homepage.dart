@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:placement/api/api.dart';
+import 'package:placement/screen/profile_screen.dart';
 import 'package:placement/screen/statasticpage.dart';
 import 'package:placement/screen/studetail.dart';
 import 'package:placement/screen/compniesDetails.dart';
 
+import 'all_company_detail_screen.dart';
+
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage>
@@ -18,6 +23,8 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     super.initState();
+    APIs.getSelfInfo();
+
     _controller = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 1000),
@@ -58,13 +65,28 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
+    var mq = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Student Details",
-          style: TextStyle(color: Colors.white),
+          "Placement Of IT",
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.black38,
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => ProfileScreen(user: APIs.me)));
+              },
+              icon: const Icon(
+                Icons.person_2_outlined,
+                color: Colors.black,
+                size: 30,
+              )),
+        ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -87,18 +109,29 @@ class _HomePageState extends State<HomePage>
                 child: Container(
                   margin: EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Colors.lightBlue,
+                    color: Color.fromARGB(255, 175, 228, 252),
+                    border: Border.all(width: 5, color: Colors.black87),
                     borderRadius: BorderRadius.circular(15),
                   ),
-                  child: Center(
-                    child: Text(
-                      "Student Details",
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.person,
+                        color: Colors.black87,
+                        size: 100,
                       ),
-                    ),
+                      Center(
+                        child: Text(
+                          "Student Details",
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -121,18 +154,29 @@ class _HomePageState extends State<HomePage>
                 child: Container(
                   margin: EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Colors.orange,
+                    color: Color.fromARGB(255, 250, 215, 227),
+                    border: Border.all(width: 5, color: Colors.black87),
                     borderRadius: BorderRadius.circular(15),
                   ),
-                  child: Center(
-                    child: Text(
-                      "Companies Details",
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.business_rounded,
+                        color: Colors.black87,
+                        size: 100,
                       ),
-                    ),
+                      Center(
+                        child: Text(
+                          "Company Details",
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -147,7 +191,8 @@ class _HomePageState extends State<HomePage>
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return StatasticDetail();
+                        return ChartPage();
+                        // return const AllCompanyDetailScreen();
                       },
                     ),
                   );
@@ -155,18 +200,29 @@ class _HomePageState extends State<HomePage>
                 child: Container(
                   margin: EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Colors.green,
+                    color: Color.fromARGB(255, 254, 247, 188),
+                    border: Border.all(width: 5, color: Colors.black),
                     borderRadius: BorderRadius.circular(15),
                   ),
-                  child: Center(
-                    child: Text(
-                      "Statistics",
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.bar_chart_rounded,
+                        color: Colors.black,
+                        size: 100,
                       ),
-                    ),
+                      Center(
+                        child: Text(
+                          "Statistics",
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),

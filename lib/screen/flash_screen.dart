@@ -5,8 +5,10 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:placement/api/api.dart';
 import 'package:placement/screen/homepage.dart';
 import '../../main.dart';
+import 'auth/Login_Screen.dart';
 // import '../api/apis.dart';
 
 class flashscreen extends StatefulWidget {
@@ -30,22 +32,22 @@ class _flashscreenState extends State<flashscreen> {
             statusBarColor: Colors.white,
             systemNavigationBarColor: Colors.white));
 
-        // if(APIs.auth.currentUser !=null)
-        //   {
-        //     log('\n User:${APIs.auth.currentUser}');
-        //     //navigator to home screen
-        //     Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const HomeScreen(),));
-        //   }
-        // else {
-        //   //navigator to login screen
-        //   Navigator.pushReplacement(
-        //       context, MaterialPageRoute(builder: (_) => const loginScreen(),));
-        // }
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (_) => HomePage(),
-            ));
+        if (APIs.auth.currentUser != null) {
+          log('\n User:${APIs.auth.currentUser}');
+          //navigator to home screen
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const HomePage(),
+              ));
+        } else {
+          //navigator to login screen
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const loginScreen(),
+              ));
+        }
       },
     );
   }

@@ -3,6 +3,7 @@ import 'package:placement/models/company_models.dart';
 import 'package:placement/services/services.dart';
 
 import '../services/Company_services.dart';
+import 'all_company_detail_screen.dart';
 
 class CompanyDetails extends StatefulWidget {
   const CompanyDetails({Key? key}) : super(key: key);
@@ -33,15 +34,15 @@ class _CompanyDetailsState extends State<CompanyDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.green,
-        iconTheme: IconThemeData(color: Colors.white),
+        backgroundColor: Colors.grey,
+        iconTheme: IconThemeData(color: Colors.black),
         title: _searchText.isEmpty
             ? Text(
                 'Company Details',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: Colors.black,
                 ),
               )
             : TextField(
@@ -51,10 +52,10 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                     _searchText = value.toLowerCase();
                   });
                 },
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.black),
                 decoration: InputDecoration(
                   hintText: 'Search Company',
-                  hintStyle: TextStyle(color: Colors.white),
+                  hintStyle: TextStyle(color: Colors.black),
                   border: InputBorder.none,
                 ),
               ),
@@ -105,7 +106,16 @@ class _CompanyDetailsState extends State<CompanyDetails> {
               builder: (context, AsyncSnapshot snapshot) {
                 if (!snapshot.hasData) {
                   return Center(
-                    child: CircularProgressIndicator(),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircularProgressIndicator(
+                            color: Colors.grey,
+                            backgroundColor:
+                                Color.fromARGB(255, 250, 215, 227)),
+                        Text('Wait for just second...'),
+                      ],
+                    ),
                   );
                 } else {
                   List<Company> companies = snapshot.data;
@@ -132,6 +142,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                       itemCount: filteredCompanies.length,
                       itemBuilder: (context, index) {
                         return Card(
+                          color: Color.fromARGB(255, 250, 215, 227),
                           elevation: 8,
                           margin: EdgeInsets.symmetric(
                               vertical: 12, horizontal: 16),
@@ -141,16 +152,75 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                           child: Padding(
                             padding: const EdgeInsets.all(16.0),
                             child: ListTile(
-                              title: Text(
-                                '${filteredCompanies[index].companyName}',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                              trailing: IconButton(
+                                icon: Icon(Icons.info_outline_rounded),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) =>
+                                              AllCompanyDetailScreen(
+                                                name: filteredCompanies[index]
+                                                    .companyName,
+                                              )));
+                                },
                               ),
-                              subtitle: Text(
-                                'Year: ${filteredCompanies[index].year}',
-                                style: TextStyle(fontSize: 14),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      children: [
+                                        RichText(
+                                          text: TextSpan(
+                                              text: '',
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.black,
+                                              ),
+                                              children: [
+                                                TextSpan(
+                                                  text: 'Company Name : ',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 15),
+                                                ),
+                                                TextSpan(
+                                                    text:
+                                                        '${filteredCompanies[index].companyName}',
+                                                    style: TextStyle(
+                                                      fontSize: 15,
+                                                    ))
+                                              ]),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                        text: '',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.black,
+                                        ),
+                                        children: [
+                                          TextSpan(
+                                            text: 'Year : ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15),
+                                          ),
+                                          TextSpan(
+                                              text:
+                                                  '${filteredCompanies[index].year}',
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                              ))
+                                        ]),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
